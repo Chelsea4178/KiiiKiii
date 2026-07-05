@@ -1,0 +1,124 @@
+.sticker-draggable {
+  position: absolute;
+  top: 0;
+  left: 0;
+  touch-action: none;
+  will-change: transform;
+  z-index: 100;
+  cursor: grab;
+}
+
+.sticker-draggable:active {
+  cursor: grabbing;
+}
+
+.sticker-draggable .sticker-container {
+  position: relative;
+  width: var(--sticker-width);
+  height: var(--sticker-width);
+  user-select: none;
+}
+
+/* ═══ Main sticker ═══ */
+.sticker-draggable .sticker-main {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--sticker-rotate));
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    2px 4px 12px rgba(0, 0, 0, calc(var(--sticker-shadow-opacity) * 0.6)),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s var(--sticker-peel-easing),
+              box-shadow 0.3s var(--sticker-peel-easing);
+}
+
+.sticker-draggable .sticker-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ═══ Peel flap ═══ */
+.sticker-draggable .flap {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  transform-origin: bottom right;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--sticker-peelback-hover) * 2),
+    calc(100% - var(--sticker-peelback-hover) * 2) 100%,
+    0 100%
+  );
+  transition: clip-path 0.5s var(--sticker-peel-hover-easing);
+  pointer-events: none;
+  box-shadow: -2px -2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sticker-draggable .flap-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom right;
+  transform: scaleX(-1);
+  filter: brightness(0.7);
+  pointer-events: none;
+}
+
+/* ═══ Hover: peel more ═══ */
+.sticker-draggable:hover .flap {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--sticker-peelback-hover)),
+    calc(100% - var(--sticker-peelback-hover)) 100%,
+    0 100%
+  );
+}
+
+/* ═══ Active / touch: peel even more ═══ */
+.sticker-draggable:active .flap,
+.sticker-draggable.touch-active .flap {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--sticker-peelback-active)),
+    calc(100% - var(--sticker-peelback-active)) 100%,
+    0 100%
+  );
+}
+
+/* ═══ Remove button ═══ */
+.sticker-draggable .sticker-remove-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.2s, transform 0.2s;
+  line-height: 1;
+  padding: 0;
+  color: #666;
+}
+
+.sticker-draggable:hover .sticker-remove-btn {
+  opacity: 1;
+  transform: scale(1);
+}

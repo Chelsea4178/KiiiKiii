@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --font-sans: 'Noto Sans SC', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

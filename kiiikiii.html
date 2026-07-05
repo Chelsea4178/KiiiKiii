@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIIIKIII ⋆｡°✩</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700;900&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #F4A7B9;
+    --pink2: #EE9CB5;
+    --mint: #B5EAD7;
+    --lavender: #C3B1E1;
+    --babyblue: #A8D8EA;
+    --peach: #FFDAB9;
+    --butter: #FFF1C1;
+    --coral: #F7C5B5;
+    --text: #5D4E6D;
+    --textLight: #8B7DA8;
+    --bg: #FFF5F5;
+    --card: rgba(255,255,255,0.75);
+  }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: #FFF5F5;
+    color: #5D4E6D;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='8' fill='none' stroke='%23F4A7B9' stroke-width='2'/><circle cx='10' cy='10' r='2' fill='%23F4A7B9'/></svg>") 10 10, auto;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(244,167,185,0.04) 3px, rgba(244,167,185,0.04) 6px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(168,216,234,0.04) 3px, rgba(168,216,234,0.04) 6px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  canvas#sparkleCanvas {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
+  }
+
+  /* ── NAVIGATION ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: linear-gradient(180deg, rgba(255,245,245,0.95) 0%, rgba(255,245,245,0.7) 80%, transparent 100%);
+    padding: 20px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem; font-weight: 900;
+    background: linear-gradient(90deg, var(--pink), var(--lavender), var(--mint));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 8px rgba(244,167,185,0.5));
+    letter-spacing: 3px;
+    animation: logoGlow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes logoGlow {
+    0% { filter: drop-shadow(0 0 8px rgba(244,167,185,0.5)); }
+    100% { filter: drop-shadow(0 0 16px rgba(195,177,225,0.6)) drop-shadow(0 0 30px rgba(168,216,234,0.5)); }
+  }
+
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a {
+    color: var(--textLight); text-decoration: none; font-size: 0.9rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    position: relative; transition: 0.3s;
+    font-family: 'Orbitron', sans-serif;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+    background: var(--pink); transition: 0.3s;
+  }
+  .nav-links a:hover { color: var(--pink); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; width: 100%; height: 100vh;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('photo/IMG_6819.jpeg');
+    background-size: cover; background-position: center;
+    filter: brightness(0.8);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: flex-start;
+    height: 100%; padding-left: 80px;
+  }
+
+  .hero-content h2 {
+    font-family: 'Noto Sans SC', 'Orbitron', sans-serif;
+    font-size: 6.5rem; font-weight: 800;
+    color: #fff;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.2);
+    line-height: 1;
+    position: relative;
+  }
+
+  .hero-content h2 .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .hero-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+    background: linear-gradient(transparent, #FFF5F5);
+    z-index: 5; pointer-events: none;
+  }
+
+  /* ── MUSIC PLAYER SECTION ── */
+  .music-section {
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem; font-weight: 900; letter-spacing: 6px;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, var(--pink), var(--lavender), var(--mint));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(244,167,185,0.4));
+    text-shadow: none;
+  }
+
+  .section-subtitle {
+    color: var(--textLight); letter-spacing: 4px;
+    font-size: 0.9rem; margin-bottom: 50px;
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  .music-player {
+    max-width: 550px; margin: 0 auto;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(195,177,225,0.4);
+    border-radius: 20px; padding: 35px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(195,177,225,0.15);
+  }
+
+  .music-player::before {
+    content: '';
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(244,167,185,0.1), transparent, rgba(168,216,234,0.1), transparent);
+    animation: rotateBorder 6s linear infinite;
+  }
+
+  @keyframes rotateBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .music-player-inner {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.85); border-radius: 15px;
+    padding: 25px;
+  }
+
+  .album-art {
+    width: 200px; height: 200px; margin: 0 auto 25px;
+    border-radius: 50%; overflow: hidden;
+    border: 3px solid var(--pink);
+    box-shadow: 0 0 30px rgba(244,167,185,0.3), 0 0 60px rgba(195,177,225,0.2);
+    position: relative;
+  }
+  .album-art img {
+    width: 100%; height: 100%; object-fit: cover;
+    animation: spinDisc 8s linear infinite paused;
+  }
+  .album-art.playing img { animation-play-state: running; }
+
+  @keyframes spinDisc {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .track-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem; font-weight: 700;
+    letter-spacing: 2px; margin-bottom: 6px;
+    color: #8B7DA8;
+  }
+
+  .track-artist {
+    font-size: 0.85rem; color: var(--textLight);
+    letter-spacing: 2px; margin-bottom: 20px;
+  }
+
+  .progress-bar {
+    width: 100%; height: 5px; background: rgba(195,177,225,0.25);
+    border-radius: 3px; margin-bottom: 20px; cursor: pointer;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--lavender), var(--mint));
+    border-radius: 3px; transition: width 0.1s linear;
+  }
+
+  .player-controls {
+    display: flex; align-items: center; justify-content: center;
+    gap: 25px;
+  }
+
+  .control-btn {
+    background: none; border: none; color: var(--textLight); cursor: pointer;
+    font-size: 1.1rem; transition: all 0.3s;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .control-btn:hover { color: var(--pink); }
+
+  .play-btn {
+    width: 65px; height: 65px;
+    background: linear-gradient(135deg, var(--pink), var(--lavender));
+    border-radius: 50%; border: none; cursor: pointer;
+    font-size: 1.8rem; color: #fff;
+    box-shadow: 0 0 25px rgba(244,167,185,0.4), 0 0 50px rgba(195,177,225,0.25);
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px rgba(244,167,185,0.6), 0 0 70px rgba(195,177,225,0.4);
+  }
+
+  .volume-slider {
+    -webkit-appearance: none; width: 80px; height: 4px;
+    background: rgba(255,255,255,0.2); border-radius: 2px;
+    outline: none;
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--cyan);
+    cursor: pointer; box-shadow: 0 0 10px var(--cyan);
+  }
+
+  .time-display {
+    font-size: 0.75rem; color: var(--textLight);
+    font-family: 'Orbitron', sans-serif;
+    display: flex; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  /* ── FAN SCREEN ── */
+  .fan-section {
+    padding: 80px 40px 120px;
+    text-align: center;
+    position: relative;
+  }
+
+  .screen-wrapper {
+    max-width: 720px; margin: 0 auto;
+    border: 3px solid rgba(195,177,225,0.5);
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 0 40px rgba(195,177,225,0.2), inset 0 0 30px rgba(195,177,225,0.1);
+    background: #0a0a1a;
+  }
+
+  .fan-screen {
+    position: relative; width: 100%; padding-top: 56.25%;
+    overflow: hidden;
+  }
+
+  .screen-images {
+    position: absolute; inset: 0;
+  }
+  .screen-images img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .screen-images img.active { opacity: 1; }
+
+  .danmu-layer {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 10; overflow: hidden;
+  }
+
+  .danmu-item {
+    position: absolute;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 1rem; font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    animation: danmuFly 8s linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes danmuFly {
+    0% { transform: translateX(100%); opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateX(-150%); opacity: 0; }
+  }
+
+  .fan-actions {
+    max-width: 720px; margin: 25px auto 0;
+    display: flex; gap: 15px; align-items: center;
+  }
+
+  .comment-bar {
+    flex: 1; display: flex; gap: 10px;
+  }
+
+  .comment-bar input {
+    flex: 1; padding: 12px 20px;
+    border: 2px solid rgba(195,177,225,0.5);
+    border-radius: 50px; outline: none;
+    background: rgba(255,255,255,0.8);
+    color: #5D4E6D; font-size: 0.95rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .comment-bar input::placeholder { color: #B0A0C0; }
+
+  .send-btn {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #F4A7B9, #C3B1E1);
+    border: none; border-radius: 50px;
+    color: #fff; font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 2px; cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 20px rgba(244,167,185,0.3);
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  .send-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(244,167,185,0.5); }
+
+  .like-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.8);
+    border: 2px solid rgba(244,167,185,0.5);
+    border-radius: 50px; cursor: pointer;
+    font-size: 1.2rem; transition: all 0.3s;
+    font-family: 'Orbitron', sans-serif;
+    color: #8B7DA8;
+  }
+  .like-btn:hover { border-color: #F4A7B9; box-shadow: 0 0 20px rgba(244,167,185,0.2); }
+  .like-btn.liked { background: #FFF0F3; border-color: #F4A7B9; }
+
+  .like-count { font-size: 1rem; font-weight: 700; }
+
+  .fan-emoji {
+    position: fixed; pointer-events: none; z-index: 9997;
+    font-size: 1.5rem;
+    animation: fanEmojiFly 1.5s ease-out forwards;
+  }
+  @keyframes fanEmojiFly {
+    0% { opacity: 1; transform: translateY(0) scale(0.5) rotate(0deg); }
+    50% { transform: translateY(-80px) scale(1.2) rotate(20deg); }
+    100% { opacity: 0; transform: translateY(-180px) scale(0.4) rotate(-30deg); }
+  }
+
+  /* ── BOUNCE CARDS ── */
+  .bounce-section {
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .bounceCardsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bc-card {
+    position: absolute;
+    width: 200px;
+    aspect-ratio: 1;
+    border: 5px solid #fff;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+
+  .bc-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── PARTICLE BG ── */
+  .bg-particles {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .particle {
+    position: absolute; border-radius: 50%;
+    animation: particleDrift linear infinite;
+    opacity: 0.5;
+  }
+  @keyframes particleDrift {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── IMAGE PREVIEW OVERLAY ── */
+  .image-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+  .image-overlay.active { opacity: 1; pointer-events: auto; }
+  .image-overlay img {
+    max-width: 90%; max-height: 80vh;
+    border-radius: 15px;
+    box-shadow: 0 0 60px rgba(244,167,185,0.4), 0 0 120px rgba(195,177,225,0.25);
+    border: 3px solid rgba(244,167,185,0.5);
+  }
+  .overlay-back-btn {
+    margin-top: 30px;
+    padding: 12px 35px;
+    background: linear-gradient(135deg, var(--pink), var(--lavender));
+    border: none; border-radius: 50px;
+    color: #fff; font-size: 1rem; font-weight: 700;
+    letter-spacing: 2px; cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 25px rgba(244,167,185,0.4);
+    transition: all 0.3s;
+  }
+  .overlay-back-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(244,167,185,0.6);
+  }
+
+  /* ── STICKER PEEL ── */
+  .sticker-palette {
+    display: flex; justify-content: center; gap: 10px; margin: 20px auto 25px;
+    flex-wrap: wrap; padding: 15px;
+    background: rgba(255,255,255,0.65); border-radius: 16px;
+    border: 1px solid rgba(195,177,225,0.4); backdrop-filter: blur(10px);
+    z-index: 10; position: relative;
+  }
+  .sticker-palette button {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(255,255,255,0.8); border: 2px solid rgba(244,167,185,0.4);
+    cursor: pointer; font-size: 1.5rem;
+    transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex; align-items: center; justify-content: center; padding: 0;
+  }
+  .sticker-palette button:hover {
+    transform: scale(1.2); box-shadow: 0 4px 16px rgba(244,167,185,0.3);
+  }
+
+  .sticker-peel {
+    position: absolute; top: 0; left: 0; touch-action: none;
+    z-index: 100; cursor: grab; user-select: none;
+  }
+  .sticker-peel:active { cursor: grabbing; }
+  .sticker-peel.dragging { z-index: 200; cursor: grabbing; }
+
+  .sticker-peel .sticker-body {
+    position: relative; width: var(--s-width); height: var(--s-width);
+  }
+  .sticker-peel .sticker-main {
+    width: 100%; height: 100%; border-radius: 12px; overflow: hidden;
+    transform: rotate(var(--s-rotate));
+    box-shadow: 2px 4px 14px rgba(0,0,0,0.15), 0 0 0 3px rgba(255,255,255,0.8);
+    background: #FFFAFE;
+  }
+  .sticker-peel .sticker-main img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    pointer-events: none;
+  }
+
+  .sticker-peel .sticker-flap {
+    position: absolute; inset: 0; border-radius: 12px; overflow: hidden;
+    transform-origin: bottom right;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%);
+    transition: clip-path 0.4s ease;
+    pointer-events: none;
+  }
+  .sticker-peel .sticker-flap img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.85); pointer-events: none;
+  }
+  .sticker-peel:hover .sticker-flap {
+    clip-path: polygon(0 0, 100% 0, 100% 65%, 65% 100%, 0 100%);
+  }
+  .sticker-peel:active .sticker-flap,
+  .sticker-peel.dragging .sticker-flap {
+    clip-path: polygon(0 0, 100% 0, 100% 55%, 55% 100%, 0 100%);
+  }
+
+  .sticker-peel .sticker-x {
+    position: absolute; top: -8px; right: -8px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,0.9); border: 1px solid rgba(0,0,0,0.15);
+    font-size: 11px; cursor: pointer; z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: scale(0.5); transition: 0.2s;
+    color: #666; padding: 0; line-height: 1;
+  }
+  .sticker-peel:hover .sticker-x { opacity: 1; transform: scale(1); }
+
+  .sticker-layer {
+    position: absolute; inset: 0; z-index: 15; pointer-events: none;
+  }
+  .sticker-layer > * { pointer-events: auto; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .slide-content h2 { font-size: 2.5rem; letter-spacing: 6px; }
+    .section-title { font-size: 1.8rem; }
+    .hero-content { padding-left: 30px; }
+    .hero-content h2 { font-size: 3.5rem; }
+    .ranking-grid { grid-template-columns: 1fr; }
+    .rank-leaderboard { flex-wrap: wrap; }
+    .bounceCardsContainer { transform: scale(0.7); }
+    .comment-bar { flex-direction: column; }
+    .fan-actions { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="sparkleCanvas"></canvas>
+<div class="bg-particles" id="bgParticles"></div>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <div class="logo">KiiiKiii</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#music">Music</a></li>
+    <li><a href="#cards">Cards</a></li>
+    <li><a href="#ranking">Screen</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h2>KiiiKiii</h2>
+  </div>
+  <div class="hero-overlay"></div>
+</section>
+
+<!-- ═══════════════════ MUSIC PLAYER ═══════════════════ -->
+<section class="music-section" id="music">
+  <h2 class="section-title">♪ MUSIC PLAYER ♪</h2>
+  <p class="section-subtitle">Click to play our latest single</p>
+  <div class="music-player">
+    <div class="music-player-inner">
+      <p style="text-align:center; color: #C3B1E1; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 8px; font-family: 'Noto Sans SC', sans-serif;">滑动唱片切换歌曲</p>
+      <div class="album-art" id="albumArt">
+        <img src="photo/IMG_6751.jpeg" alt="Album Art">
+      </div>
+      <div class="track-title" id="trackTitle">DANCING ALONE</div>
+      <div class="track-artist">KIIIKIII</div>
+      <div class="time-display">
+        <span id="currentTime">00:00</span>
+        <span id="duration">03:37</span>
+      </div>
+      <div class="progress-bar" id="progressBar" onclick="seek(event)">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="prevTrack()" title="Previous">⏮</button>
+        <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+        <button class="control-btn" onclick="nextTrack()" title="Next">⏭</button>
+        <button class="control-btn" onclick="toggleMute()" title="Volume" id="muteBtn">🔊</button>
+      </div>
+    </div>
+  </div>
+  <audio id="audioPlayer" preload="auto"></audio>
+  <p style="margin-top: 15px; color: #B0A0C0; font-size: 0.75rem; letter-spacing: 1px;">
+    ✦ 一键播放 · ONE CLICK PLAY ✦
+  </p>
+</section>
+
+<!-- ═══════════════════ BOUNCE CARDS SECTION ═══════════════════ -->
+<section class="bounce-section" id="cards">
+  <h2 class="section-title">✦ MEMBERS ✦</h2>
+  <p class="section-subtitle">Hover the cards!</p>
+  <p style="text-align:center; color: #C3B1E1; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 12px; font-family: 'Noto Sans SC', sans-serif;">点击卡片查看成员</p>
+
+  <div class="bounceCardsContainer" id="bounceContainer"
+    style="width:500px; height:250px; margin:0 auto; position:relative;">
+  </div>
+</section>
+
+<!-- ═══════════════════ FAN SCREEN SECTION ═══════════════════ -->
+<section class="fan-section" id="ranking">
+  <h2 class="section-title">✦ STICKER SCREEN ✦</h2>
+  <p class="section-subtitle">Click emoji to paste cute stickers!</p>
+  <p style="text-align:center; color: #F4A7B9; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 5px; font-family: 'Orbitron', sans-serif;">✦ 点击贴纸 ✦</p>
+
+  <div class="sticker-palette" id="stickerPalette"></div>
+
+  <div class="screen-wrapper">
+    <div class="fan-screen" id="fanScreen">
+      <div class="screen-images" id="screenImages"></div>
+      <div class="sticker-layer" id="stickerLayer"></div>
+    </div>
+  </div>
+
+  <div class="fan-actions">
+    <button class="like-btn" id="heartBtn" onclick="likeFan()">
+      <span class="like-icon">🤍</span>
+      <span class="like-count" id="likeCount">0</span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer style="text-align:center; padding:40px; border-top: 1px solid rgba(195,177,225,0.25);">
+  <p style="font-family:'Orbitron',sans-serif; font-size:1.5rem; letter-spacing:5px; background:linear-gradient(90deg,#F4A7B9,#C3B1E1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">KIIIKIII</p>
+  <p style="color:#8B7DA8; font-size:0.75rem; letter-spacing:2px; margin-top:8px;">© 2026 KIIIKIII FAN PAGE</p>
+  <p style="color:#B0A0C0; font-size:0.7rem; letter-spacing:1px; margin-top:16px; font-family:'Noto Sans SC',sans-serif;">2026年中国传媒大学计算机思维概论作业 25级广播电视编导（文艺编导方向） 林玮容 202506013021</p>
+  <p style="color:#B0A0C0; font-size:0.7rem; letter-spacing:1px; margin-top:4px; font-family:'Noto Sans SC',sans-serif;">本网站所有内容仅为学生作业 不做商用</p>
+</footer>
+
+<!-- ═══════════════════ PARTICLES ═══════════════════ -->
+<script>
+(function() {
+  const container = document.getElementById('bgParticles');
+  const colors = ['#F4A7B9','#A8D8EA','#B5EAD7','#C3B1E1','#FFF1C1','#FFDAB9','#F7C5B5'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = p.style.height = (Math.random() * 4 + 2) + 'px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (Math.random() * 12 + 8) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    p.style.boxShadow = `0 0 ${Math.random()*6+3}px ${p.style.background}`;
+    container.appendChild(p);
+  }
+})();
+</script>
+
+<!-- ═══════════════════ SPARKLE TRAIL ═══════════════════ -->
+<script>
+(function() {
+  const canvas = document.getElementById('sparkleCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  let particles = [];
+  let mouse = { x: -100, y: -100 };
+
+  document.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    for (let i = 0; i < 2; i++) {
+      particles.push({
+        x: mouse.x + (Math.random() - 0.5) * 20,
+        y: mouse.y + (Math.random() - 0.5) * 20,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        life: 1,
+        size: Math.random() * 4 + 1,
+        color: ['#F4A7B9','#A8D8EA','#C3B1E1','#B5EAD7','#FFF1C1'][Math.floor(Math.random()*5)]
+      });
+    }
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.02;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color.replace(')', `,${p.life})`).replace('rgb', 'rgba');
+      if (p.color.startsWith('#')) {
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+      }
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+})();
+</script>
+
+<!-- ═══════════════════ CAROUSEL ═══════════════════ -->
+<script>
+let currentSlide = 0;
+const totalSlides = 3;
+let autoPlayInterval;
+
+function updateCarousel() {
+  document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+  document.querySelectorAll('.carousel-dots .dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+}
+
+function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateCarousel(); resetAutoPlay(); }
+function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateCarousel(); resetAutoPlay(); }
+function goToSlide(n) { currentSlide = n; updateCarousel(); resetAutoPlay(); }
+function resetAutoPlay() { clearInterval(autoPlayInterval); autoPlayInterval = setInterval(nextSlide, 4000); }
+resetAutoPlay();
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') prevSlide();
+  if (e.key === 'ArrowRight') nextSlide();
+  if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+});
+
+// Touch swipe
+let touchStartX = 0;
+document.querySelector('.carousel').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.querySelector('.carousel').addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (diff > 50) nextSlide();
+  if (diff < -50) prevSlide();
+});
+</script>
+
+<!-- ═══════════════════ MUSIC LOGIC ═══════════════════ -->
+<script>
+const tracks = [
+  { title: 'DANCING ALONE', artist: 'KIIIKIII', src: 'music/KiiiKiii - DANCING ALONE.mp3', cover: 'photo/IMG_6751.jpeg' },
+  { title: '404 (New Era)', artist: 'KIIIKIII', src: 'music/KiiiKiii - 404 (New Era).mp3', cover: 'photo/IMG_6813.jpeg' },
+  { title: 'I DO ME', artist: 'KIIIKIII', src: 'music/KiiiKiii - I DO ME.mp3', cover: 'photo/IMG_6812.jpeg' },
+];
+
+let currentTrack = 0;
+let isPlaying = false;
+
+const audio = document.getElementById('audioPlayer');
+const playBtn = document.getElementById('playBtn');
+const disc = document.getElementById('albumArt');
+const discImg = disc.querySelector('img');
+const progressFill = document.getElementById('progressFill');
+const currentTimeEl = document.getElementById('currentTime');
+const durationEl = document.getElementById('duration');
+const muteBtn = document.getElementById('muteBtn');
+
+// ── Extract MP3 embedded cover (ID3v2 APIC) ──
+function extractMP3Cover(mp3Path, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', mp3Path, true);
+  xhr.responseType = 'arraybuffer';
+  xhr.onload = function() {
+    const buffer = new Uint8Array(xhr.response);
+    let offset = 0;
+
+    // ID3v2 header: "ID3" + version + flags + size (syncsafe)
+    if (buffer[0] !== 0x49 || buffer[1] !== 0x44 || buffer[2] !== 0x33) {
+      callback(null); return;
+    }
+    const id3Size = (buffer[6] << 21) | (buffer[7] << 14) | (buffer[8] << 7) | buffer[9];
+    offset = 10;
+
+    const end = offset + id3Size;
+    while (offset < end) {
+      const frameId = String.fromCharCode(buffer[offset], buffer[offset+1], buffer[offset+2], buffer[offset+3]);
+      const frameSize = (buffer[offset+4] << 24) | (buffer[offset+5] << 16) | (buffer[offset+6] << 8) | buffer[offset+7];
+      if (frameSize <= 0 || offset + 10 + frameSize > buffer.length) break;
+
+      if (frameId === 'APIC') {
+        let pos = offset + 10; // skip header
+        // Skip text encoding and MIME type
+        const enc = buffer[pos]; pos++;
+        while (buffer[pos] !== 0 && pos < end) pos++; // mime type
+        pos++; // null byte
+        pos++; // picture type byte
+        // Skip description
+        while (buffer[pos] !== 0 && pos < end) pos++;
+        pos++; // null byte
+        const imgData = buffer.slice(pos, offset + 10 + frameSize);
+        const mimeEnd = offset + 11;
+        let mime = 'image/jpeg';
+        for (let i = offset + 11; i < offset + 30 && buffer[i] !== 0; i++) {
+          if (buffer[i] === 0x6a && buffer[i+1] === 0x70) mime = 'image/jpeg';
+          if (buffer[i] === 0x70 && buffer[i+1] === 0x6e) mime = 'image/png';
+        }
+        const blob = new Blob([imgData], { type: mime });
+        callback(URL.createObjectURL(blob));
+        return;
+      }
+      offset += 10 + frameSize;
+    }
+    callback(null);
+  };
+  xhr.onerror = function() { callback(null); };
+  xhr.send();
+}
+
+function setCover(src) {
+  discImg.src = src;
+}
+
+function formatTime(sec) {
+  if (isNaN(sec) || !isFinite(sec)) return '00:00';
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+audio.addEventListener('loadedmetadata', () => {
+  durationEl.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('timeupdate', () => {
+  if (audio.duration) {
+    progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+  }
+});
+
+audio.addEventListener('play', () => {
+  isPlaying = true;
+  playBtn.innerHTML = '⏸';
+  disc.classList.add('playing');
+});
+
+audio.addEventListener('pause', () => {
+  isPlaying = false;
+  playBtn.innerHTML = '▶';
+  disc.classList.remove('playing');
+});
+
+audio.addEventListener('ended', () => {
+  isPlaying = false;
+  playBtn.innerHTML = '▶';
+  disc.classList.remove('playing');
+  switchTrack((currentTrack + 1) % tracks.length, true);
+});
+
+function switchTrack(idx, autoPlay) {
+  currentTrack = idx;
+  document.getElementById('trackTitle').textContent = tracks[idx].title;
+  document.querySelector('.track-artist').textContent = tracks[idx].artist;
+  progressFill.style.width = '0%';
+  currentTimeEl.textContent = '00:00';
+  durationEl.textContent = '--:--';
+
+  audio.pause();
+  audio.src = tracks[idx].src;
+  audio.load();
+
+  // Set cover art
+  if (tracks[idx].cover) {
+    setCover(tracks[idx].cover);
+  } else {
+    extractMP3Cover(tracks[idx].src, function(coverUrl) {
+      if (coverUrl) setCover(coverUrl);
+    });
+  }
+
+  if (autoPlay) {
+    const onCanPlay = () => {
+      audio.removeEventListener('canplay', onCanPlay);
+      audio.play().catch(function() {});
+    };
+    audio.addEventListener('canplay', onCanPlay);
+    setTimeout(() => {
+      audio.removeEventListener('canplay', onCanPlay);
+      audio.play().catch(function() {});
+    }, 1000);
+  }
+}
+
+function togglePlay() {
+  if (isPlaying) {
+    audio.pause();
+  } else {
+    audio.play().catch(function() {});
+  }
+}
+
+function seek(e) {
+  if (!audio.duration) return;
+  const bar = document.getElementById('progressBar');
+  const rect = bar.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+}
+
+function toggleMute() {
+  audio.muted = !audio.muted;
+  muteBtn.textContent = audio.muted ? '🔇' : '🔊';
+}
+
+function nextTrack() {
+  switchTrack((currentTrack + 1) % tracks.length, isPlaying);
+}
+
+function prevTrack() {
+  switchTrack((currentTrack - 1 + tracks.length) % tracks.length, isPlaying);
+}
+
+// Initial load
+switchTrack(0, false);
+
+// ── Swipe album art to switch tracks ──
+(function() {
+  let startX = null, dragged = false;
+
+  disc.addEventListener('mousedown', function(e) {
+    startX = e.clientX;
+    dragged = false;
+    e.preventDefault();
+  });
+
+  disc.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    dragged = false;
+  }, { passive: true });
+
+  document.addEventListener('mousemove', function(e) {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 10) dragged = true;
+    if (dragged) disc.style.transform = 'rotate(' + (dx * 0.3) + 'deg)';
+  });
+
+  document.addEventListener('mouseup', function(e) {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    startX = null;
+    if (dragged && Math.abs(dx) > 50) {
+      if (dx < 0) nextTrack(); else prevTrack();
+    }
+    disc.style.transform = '';
+  });
+
+  document.addEventListener('touchmove', function(e) {
+    if (startX === null) return;
+    const dx = e.touches[0].clientX - startX;
+    if (Math.abs(dx) > 10) dragged = true;
+    if (dragged) disc.style.transform = 'rotate(' + (dx * 0.3) + 'deg)';
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (startX === null) return;
+    const dx = (e.changedTouches[0]?.clientX || 0) - startX;
+    startX = null;
+    if (dragged && Math.abs(dx) > 50) {
+      if (dx < 0) nextTrack(); else prevTrack();
+    }
+    disc.style.transform = '';
+  });
+})();
+</script>
+
+<!-- ═══════════════════ FAN SCREEN ═══════════════════ -->
+<script>
+(function() {
+  // ── Scrolling images (one at a time) ──
+  const screenImages = document.getElementById('screenImages');
+  const fanImages = [
+    'file://photo/IMG_6738.jpeg',
+    'file://photo/IMG_6741.jpeg',
+    'file://photo/IMG_6736.jpeg',
+    'file://photo/IMG_6757.jpeg',
+    'file://photo/IMG_6742.jpeg',
+    'file://photo/IMG_6735.jpeg',
+  ];
+  fanImages.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    screenImages.appendChild(img);
+  });
+  const imgs = screenImages.querySelectorAll('img');
+  let currentImg = 0;
+  imgs[0].classList.add('active');
+  setInterval(() => {
+    imgs[currentImg].classList.remove('active');
+    currentImg = (currentImg + 1) % imgs.length;
+    imgs[currentImg].classList.add('active');
+  }, 3000);
+
+  // ── Sticker palette ──
+  const stickerPalette = document.getElementById('stickerPalette');
+  const paletteEmojis = ['💖','💕','💗','✨','💝','🌟','💘','❤️','🐰','🦊','🐱','🐹','🦋','🌸','🍀','💎','🎀','🌈','⭐','🍒','🫧','🍭'];
+  const fanScreen = document.getElementById('fanScreen');
+  const stickerLayer = document.getElementById('stickerLayer');
+
+  paletteEmojis.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.textContent = emoji;
+    btn.addEventListener('click', () => addSticker(emoji));
+    stickerPalette.appendChild(btn);
+  });
+
+  function addSticker(emoji) {
+    const rect = fanScreen.getBoundingClientRect();
+    const sx = Math.random() * (rect.width * 0.5) + rect.width * 0.1;
+    const sy = Math.random() * (rect.height * 0.35) + rect.height * 0.15;
+    const rot = (Math.random() - 0.5) * 50;
+
+    const el = document.createElement('div');
+    el.className = 'sticker-peel';
+    el.style.setProperty('--s-width', '80px');
+    el.style.setProperty('--s-rotate', rot + 'deg');
+    el.style.left = sx + 'px';
+    el.style.top = sy + 'px';
+
+    const svgSrc = 'data:image/svg+xml,' + encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="20" fill="#ffffff"/><text x="64" y="90" text-anchor="middle" font-size="72">${emoji}</text></svg>`
+    );
+
+    el.innerHTML = `
+      <div class="sticker-body">
+        <button class="sticker-x" title="Remove">✕</button>
+        <div class="sticker-main"><img src="${svgSrc}" alt=""></div>
+        <div class="sticker-flap"><img src="${svgSrc}" alt=""></div>
+      </div>
+    `;
+
+    // Remove button
+    el.querySelector('.sticker-x').addEventListener('click', (e) => {
+      e.stopPropagation();
+      el.style.transition = '0.25s ease';
+      el.style.opacity = '0';
+      el.style.transform += ' scale(0.5)';
+      setTimeout(() => el.remove(), 250);
+    });
+
+    // Drag
+    let dragging = false, startX, startY, origLeft, origTop;
+    el.addEventListener('mousedown', (e) => {
+      if (e.target.classList.contains('sticker-x')) return;
+      dragging = true;
+      el.classList.add('dragging');
+      startX = e.clientX;
+      startY = e.clientY;
+      origLeft = parseFloat(el.style.left);
+      origTop = parseFloat(el.style.top);
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      el.style.left = Math.max(0, origLeft + dx) + 'px';
+      el.style.top = Math.max(0, origTop + dy) + 'px';
+    });
+    document.addEventListener('mouseup', () => {
+      if (dragging) { dragging = false; el.classList.remove('dragging'); }
+    });
+
+    // Touch drag
+    el.addEventListener('touchstart', (e) => {
+      if (e.target.classList.contains('sticker-x')) return;
+      dragging = true;
+      el.classList.add('dragging');
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      origLeft = parseFloat(el.style.left);
+      origTop = parseFloat(el.style.top);
+    }, { passive: false });
+    document.addEventListener('touchmove', (e) => {
+      if (!dragging) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+      el.style.left = Math.max(0, origLeft + dx) + 'px';
+      el.style.top = Math.max(0, origTop + dy) + 'px';
+    });
+    document.addEventListener('touchend', () => {
+      if (dragging) { dragging = false; el.classList.remove('dragging'); }
+    });
+
+    stickerLayer.appendChild(el);
+  }
+
+  // ── Like button ──
+  let likeCount = parseInt(localStorage.getItem('kiiikiii_likes') || '0');
+  document.getElementById('likeCount').textContent = likeCount;
+
+  window.likeFan = function() {
+    likeCount++;
+    document.getElementById('likeCount').textContent = likeCount;
+    localStorage.setItem('kiiikiii_likes', likeCount);
+
+    const btn = document.getElementById('heartBtn');
+    const icon = btn.querySelector('.like-icon');
+    icon.textContent = '💖';
+    btn.classList.add('liked');
+    setTimeout(() => {
+      icon.textContent = '🤍';
+      btn.classList.remove('liked');
+    }, 600);
+
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const emojis = ['💖', '💕', '💗', '✨', '💝', '🌟', '💘', '❤️', '🐰', '🦊', '🐱', '🐹', '🦋'];
+
+    for (let i = 0; i < 10; i++) {
+      const e = document.createElement('div');
+      e.className = 'fan-emoji';
+      e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      e.style.left = (cx + (Math.random() - 0.5) * 120) + 'px';
+      e.style.top = (cy + (Math.random() - 0.5) * 40) + 'px';
+      e.style.animationDelay = (Math.random() * 0.4) + 's';
+      e.style.fontSize = (Math.random() * 1.3 + 1) + 'rem';
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 2000);
+    }
+  };
+})();
+</script>
+
+<!-- ═══════════════════ IMAGE PREVIEW OVERLAY ═══════════════════ -->
+<div class="image-overlay" id="imageOverlay">
+  <img src="" alt="Preview" id="overlayImage">
+  <button class="overlay-back-btn" onclick="closeImagePreview()">← BACK</button>
+</div>
+
+<!-- ═══════════════════ GSAP + BOUNCE CARDS ═══════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function() {
+  const images = [
+    'file://photo/IMG_6752.jpeg',
+    'file://photo/IMG_6753.jpeg',
+    'file://photo/IMG_6754.jpeg',
+    'file://photo/IMG_6755.jpeg',
+    'file://photo/IMG_6756.jpeg',
+  ];
+
+  const transformStyles = [
+    'rotate(5deg) translate(-150px)',
+    'rotate(0deg) translate(-70px)',
+    'rotate(-5deg)',
+    'rotate(5deg) translate(70px)',
+    'rotate(-5deg) translate(150px)',
+  ];
+
+  const container = document.getElementById('bounceContainer');
+  if (!container) return;
+
+  images.forEach((src, idx) => {
+    const card = document.createElement('div');
+    card.className = `bc-card bc-card-${idx}`;
+    card.style.transform = transformStyles[idx] || 'none';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `card-${idx}`;
+    card.appendChild(img);
+    container.appendChild(card);
+  });
+
+  // Entrance animation
+  gsap.fromTo('.bc-card', { scale: 0 }, {
+    scale: 1,
+    stagger: 0.08,
+    ease: 'elastic.out(1, 0.5)',
+    delay: 0.5,
+  });
+
+  // Helper: remove rotation from transform string
+  function getNoRotation(transformStr) {
+    if (/rotate\([\s\S]*?\)/.test(transformStr)) {
+      return transformStr.replace(/rotate\([\s\S]*?\)/, 'rotate(0deg)');
+    }
+    return transformStr === 'none' ? 'rotate(0deg)' : transformStr + ' rotate(0deg)';
+  }
+
+  function getPushedTransform(baseTransform, offsetX) {
+    const match = baseTransform.match(/translate\(([-0-9.]+)px\)/);
+    if (match) {
+      const currentX = parseFloat(match[1]);
+      return baseTransform.replace(/translate\(([-0-9.]+)px\)/, `translate(${currentX + offsetX}px)`);
+    }
+    return baseTransform === 'none' ? `translate(${offsetX}px)` : `${baseTransform} translate(${offsetX}px)`;
+  }
+
+  // ── Click cards to open image preview ──
+  const previewImages = {
+    0: 'file://photo/IMG_6778.jpeg',
+    1: 'file://photo/IMG_6796.jpeg',
+    2: 'file://photo/IMG_6786.jpeg',
+    3: 'file://photo/IMG_6800.jpeg',
+    4: 'file://photo/IMG_6806.jpeg',
+  };
+  function openImagePreview(idx) {
+    document.getElementById('overlayImage').src = previewImages[idx];
+    document.getElementById('imageOverlay').classList.add('active');
+  }
+  function closeImagePreview() {
+    document.getElementById('imageOverlay').classList.remove('active');
+  }
+  window.closeImagePreview = closeImagePreview;
+
+  // Close overlay on ESC key or click background
+  document.getElementById('imageOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeImagePreview();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeImagePreview();
+  });
+
+  // Hover push siblings
+  const cards = document.querySelectorAll('.bc-card');
+  cards.forEach((card, hoveredIdx) => {
+    card.addEventListener('mouseenter', () => {
+      images.forEach((_, i) => {
+        const target = document.querySelector(`.bc-card-${i}`);
+        gsap.killTweensOf(target);
+        const baseTransform = transformStyles[i] || 'none';
+
+        if (i === hoveredIdx) {
+          gsap.to(target, {
+            transform: getNoRotation(baseTransform),
+            duration: 0.4,
+            ease: 'back.out(1.4)',
+            overwrite: 'auto'
+          });
+        } else {
+          const offsetX = i < hoveredIdx ? -160 : 160;
+          gsap.to(target, {
+            transform: getPushedTransform(baseTransform, offsetX),
+            duration: 0.4,
+            ease: 'back.out(1.4)',
+            delay: Math.abs(hoveredIdx - i) * 0.05,
+            overwrite: 'auto'
+          });
+        }
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      images.forEach((_, i) => {
+        const target = document.querySelector(`.bc-card-${i}`);
+        gsap.killTweensOf(target);
+        gsap.to(target, {
+          transform: transformStyles[i] || 'none',
+          duration: 0.4,
+          ease: 'back.out(1.4)',
+          overwrite: 'auto'
+        });
+      });
+    });
+
+    // ═══ Click event on leftmost cards ═══
+    if (hoveredIdx < 5) {
+      card.addEventListener('click', () => openImagePreview(hoveredIdx));
+    }
+  });
+})();
+</script>
+
+<!-- ═══════════════════ HERO SPLIT TEXT ═══════════════════ -->
+<script>
+(function() {
+  const heroH2 = document.querySelector('.hero-content h2');
+  if (!heroH2) return;
+  const text = heroH2.textContent.trim();
+  heroH2.textContent = '';
+
+  const chars = text.split('').map(ch => {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = ch;
+    span.style.display = 'inline-block';
+    heroH2.appendChild(span);
+    return span;
+  });
+
+  gsap.to(chars, {
+    opacity: 1,
+    y: 0,
+    duration: 1.25,
+    ease: 'power3.out',
+    stagger: 0.05,
+    delay: 0.5,
+    force3D: true
+  });
+})();
+</script>
+
+</body>
+</html>
